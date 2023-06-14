@@ -3,8 +3,6 @@ package com.truelanz.truelanzcommerce.entities;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.hibernate.annotations.ManyToAny;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,6 +13,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.Setter;
 
 @Entity
@@ -32,6 +31,7 @@ public class Category {
 
     @ManyToMany(mappedBy = "categories")
     @Setter(AccessLevel.NONE)
+    @NonNull // Não incluir no constructor
     private Set<Product> products = new HashSet<>();
     
 }
