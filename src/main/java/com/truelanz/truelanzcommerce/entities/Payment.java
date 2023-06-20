@@ -26,7 +26,6 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant moment;
 
@@ -34,6 +33,7 @@ public class Payment {
     @MapsId // O valor da chave primária "id" de Order, será o mesmo para Payment...
     private Order order;
 
+    // ---equals and hashcode--- \\
     @Override
     public int hashCode() {
         final int prime = 31;

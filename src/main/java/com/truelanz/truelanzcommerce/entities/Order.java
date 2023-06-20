@@ -23,9 +23,7 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private OrderStatus status;
-
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant moment;
 
@@ -55,6 +53,7 @@ public class Order {
         return items.stream().map(x -> x.getProduct()).toList();
     }
 
+    // ---equals and hashcode--- \\
     @Override
     public int hashCode() {
         final int prime = 31;

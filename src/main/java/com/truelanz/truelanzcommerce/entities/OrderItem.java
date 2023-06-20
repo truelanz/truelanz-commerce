@@ -45,7 +45,8 @@ public class OrderItem {
     public void setProduct(Product product) {
         id.setProduct(product);
     }
-
+    
+    // ---equals and hashcode--- \\
     @Override
     public int hashCode() {
         final int prime = 31;

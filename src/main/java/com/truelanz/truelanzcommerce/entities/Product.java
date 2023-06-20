@@ -33,10 +33,8 @@ public class Product {
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
         private String name;
-
         @Column(columnDefinition = "TEXT")
         private String description;
-
         private Double price;
         private String imgUrl;
 
@@ -57,7 +55,8 @@ public class Product {
         public List<Order> getOrders() {
                 return items.stream().map(x -> x.getOrder()).toList();
         }
-
+        
+        // ---equals and hashcode--- \\
         @Override
         public int hashCode() {
                 final int prime = 31;

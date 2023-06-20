@@ -20,7 +20,8 @@ public class OrderItemPK {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
-
+    
+    // ---equals and hashcode--- \\
     @Override
     public int hashCode() {
         final int prime = 31;

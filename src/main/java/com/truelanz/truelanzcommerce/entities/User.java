@@ -29,10 +29,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-
     @Column(unique = true)
     private String email;
-    
     private String phone;
     private LocalDate birthDate;
     private String password;
@@ -41,6 +39,7 @@ public class User {
     @Setter(AccessLevel.NONE)
     private List<Order> orders = new ArrayList<>(); //List, porque Order será "muitos"...
 
+    // ---equals and hashcode--- \\
     @Override
     public int hashCode() {
         final int prime = 31;
