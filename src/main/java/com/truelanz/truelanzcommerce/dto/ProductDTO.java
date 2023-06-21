@@ -17,7 +17,7 @@ public class ProductDTO {
     private Double price;
     private String imgUrl;
 
-    //Constructor para conversão de dados no ServiceProduct ...
+    //Constructor para conversão de dados no ProductService ...
     public ProductDTO(Product entity) {
         id = entity.getId();
         name = entity.getName();
