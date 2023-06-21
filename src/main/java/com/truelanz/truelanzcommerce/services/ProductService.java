@@ -38,4 +38,18 @@ public class ProductService {
         Product product = productRepository.findById(id).get();
         return new ProductDTO(product);
     }
+
+     // Insert: POST \\
+     @Transactional
+    public ProductDTO insert(ProductDTO dto) {
+        
+        Product entity = new Product();
+        entity.setName(dto.getName());
+        entity.setDescription(dto.getDescription());
+        entity.setPrice(dto.getPrice());
+        entity.setImgUrl(dto.getImgUrl());
+
+        entity = productRepository.save(entity);
+        return new ProductDTO(entity);
+    }
 }
