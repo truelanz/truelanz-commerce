@@ -3,14 +3,20 @@ package com.truelanz.truelanzcommerce.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.truelanz.truelanzcommerce.dto.ProductDTO;
 import com.truelanz.truelanzcommerce.entities.Product;
 import com.truelanz.truelanzcommerce.repositories.ProductRepository;
+import com.truelanz.truelanzcommerce.services.exceptions.DatabaseException;
+import com.truelanz.truelanzcommerce.services.exceptions.ResourceNotFoundException;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class ProductService {
@@ -19,11 +25,13 @@ public class ProductService {
     private ProductRepository productRepository;
 
     // bucar lista COMPLETA de elementos \\
-    /* @Transactional(readOnly = true)
-    public List<ProductDTO> findAll() {
-        List<Product> result = productRepository.findAll();
-        return result.stream().map(x -> new ProductDTO(x)).toList();
-    } */
+    /*
+     * @Transactional(readOnly = true)
+     * public List<ProductDTO> findAll() {
+     * List<Product> result = productRepository.findAll();
+     * return result.stream().map(x -> new ProductDTO(x)).toList();
+     * }
+     */
 
     // bucar lista PAGINADA de elementos: GET \\
     @Transactional(readOnly = true)
@@ -32,15 +40,16 @@ public class ProductService {
         return result.map(x -> new ProductDTO(x));
     }
 
-     // buscar por ID: GET \\
+    // buscar por ID: GET \\
     @Transactional(readOnly = true)
     public ProductDTO findById(Long id) {
-        Product product = productRepository.findById(id).get();
+        Product product = productRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Resource not Found"));
         return new ProductDTO(product);
     }
 
-     // insert: POST \\
-     @Transactional
+    // insert: POST \\
+    @Transactional
     public ProductDTO insert(ProductDTO dto) {
         Product entity = new Product();
         copyDtoToEntity(dto, entity);
@@ -48,19 +57,33 @@ public class ProductService {
         return new ProductDTO(entity);
     }
 
-     // update: PUT \\
-     @Transactional
+    // update: PUT \\
+    @Transactional
     public ProductDTO update(Long id, ProductDTO dto) {
-        Product entity = productRepository.getReferenceById(id);
-        copyDtoToEntity(dto, entity);
-        entity = productRepository.save(entity);
-        return new ProductDTO(entity);
+        try {
+            Product entity = productRepository.getReferenceById(id);
+            copyDtoToEntity(dto, entity);
+            entity = productRepository.save(entity);
+            return new ProductDTO(entity);
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException("Resource not found");
+        }
+
     }
 
     // delete: DELETE \\
-    @Transactional
+    @Transactional(propagation = Propagation.SUPPORTS)
     public void detele(Long id) {
-        productRepository.deleteById(id);
+        if (!productRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Resource not found");
+        }
+        try {
+            productRepository.deleteById(id);
+        } 
+        catch (DataIntegrityViolationException e) {
+            throw new DatabaseException("Referential integrity failure");
+        }
+
     }
 
     private void copyDtoToEntity(ProductDTO dto, Product entity) {
