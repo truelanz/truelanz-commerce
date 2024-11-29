@@ -10,17 +10,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import lombok.Setter;
 
 @Entity
 @Table(name = "tb_category")
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 public class Category {
 
@@ -29,9 +26,15 @@ public class Category {
     private Long id;
     private String name;
 
+    //Constructor
+    public Category(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     @ManyToMany(mappedBy = "categories")
     @Setter(AccessLevel.NONE)
-    @NonNull // Não incluir no constructor
+    //@NonNull // Não incluir no constructor
     private Set<Product> products = new HashSet<>();
 
     // ---equals and hashcode--- \\

@@ -40,7 +40,7 @@ public class ControllerExceptionHandler {
     public ResponseEntity<CustomError> methodArgumentNotValid(MethodArgumentNotValidException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
         ValidationError err = new ValidationError(Instant.now(), status.value(), "Invalid data", request.getRequestURI());
-        //pegando messages das validations do DTO
+        //pegando messages das validations do DTO DINAMICAMENTE.
         for(FieldError f : e.getBindingResult().getFieldErrors()) {
             err.addError(f.getField(), f.getDefaultMessage());
         }

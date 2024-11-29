@@ -15,10 +15,8 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import lombok.Setter;
 
 @Entity
@@ -26,7 +24,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Product {
 
         @Id
@@ -38,13 +35,22 @@ public class Product {
         private Double price;
         private String imgUrl;
 
+        //Constructor
+        public Product(Long id, String name, String description, Double price, String imgUrl) {
+                this.id = id;
+                this.name = name;
+                this.description = description;
+                this.price = price;
+                this.imgUrl = imgUrl;
+        }
+
         @ManyToMany
         @JoinTable(name = "tb_product_category", // classe intermediária que será criada
                 joinColumns = @JoinColumn(name = "product_id"), // foreign key da classe onde estou mapeando
                 inverseJoinColumns = @JoinColumn(name = "category_id")) // foreign key da classe que estou relacionando
-                                                                                
+                                                  
         @Setter(AccessLevel.NONE)
-        @NonNull // Não incluir no constructor
+        //@NonNull // Não incluir no constructor
         private Set<Category> categories = new HashSet<>(); // Em @ManyToMany usa-se Set e HashSet, e não List!
 
         @OneToMany(mappedBy = "id.product")

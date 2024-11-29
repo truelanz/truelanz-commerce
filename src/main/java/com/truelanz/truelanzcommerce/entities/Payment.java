@@ -10,7 +10,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,7 +18,6 @@ import lombok.Setter;
 @Table(name = "tb_payment")
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 public class Payment {
     
@@ -28,6 +26,11 @@ public class Payment {
     private Long id;
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant moment;
+
+    public Payment(Long id, Instant moment) {
+        this.id = id;
+        this.moment = moment;
+    }
 
     @OneToOne
     @MapsId // O valor da chave primária "id" de Order, será o mesmo para Payment...

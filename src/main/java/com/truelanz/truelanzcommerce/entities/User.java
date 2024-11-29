@@ -12,15 +12,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "tb_user")
+@Table(name = "tb_user") //nome da tabela no banco de dados
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
 public class User {
@@ -35,8 +33,17 @@ public class User {
     private LocalDate birthDate;
     private String password;
 
+    public User(Long id, String name, String email, String phone, LocalDate birthDate, String password) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.birthDate = birthDate;
+        this.password = password;
+    }
+
     @OneToMany(mappedBy = "client")
-    @Setter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE) // Não gera o método "setOrders", nunca se faz setter de uma lista.
     private List<Order> orders = new ArrayList<>(); //List, porque Order será "muitos"...
 
     // ---equals and hashcode--- \\

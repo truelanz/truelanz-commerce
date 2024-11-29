@@ -7,7 +7,6 @@ import java.util.Set;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,7 +15,6 @@ import lombok.Setter;
 @Table(name = "tb_order")
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 public class Order {
 
@@ -24,11 +22,18 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private OrderStatus status;
-    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE") //Salvo como UTC por padrão.
     private Instant moment;
 
-    @ManyToOne // Muitos para um
-    @JoinColumn(name = "client_id") // foreign key
+    //Constructor
+    public Order(Long id, OrderStatus status, Instant moment) {
+        this.id = id;
+        this.status = status;
+        this.moment = moment;
+    }
+
+    @ManyToOne // RELACIONAMENTO - Muitos para um
+    @JoinColumn(name = "client_id") // criará uma foreign key na tabela "tb_order" com o id (primary key) da classe User - da tabela tb_user.
     private User client;
 
     /*
