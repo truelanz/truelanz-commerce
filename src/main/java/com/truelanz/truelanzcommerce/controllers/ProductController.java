@@ -1,8 +1,6 @@
 package com.truelanz.truelanzcommerce.controllers;
 
 import java.net.URI;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -36,10 +35,12 @@ public class ProductController {
     } */
 
     // bucar lista PAGINADA de elementos \\
-    // /products?size=5&page=0&sort=name -> QUERY PARAMS, tamanho=, página=, ordenar por= ...
+    // /products?size=5&page=0&sort=name -> QUERY PARAMS, tamanho= & página= & ordenar por= ...
     @GetMapping
-    public ResponseEntity<Page<ProductDTO>> findAll(Pageable pageable) {
-        Page<ProductDTO> dto = productService.findAll(pageable);
+    public ResponseEntity<Page<ProductDTO>> findAll(
+            @RequestParam(name = "name", defaultValue = "") String name,
+            Pageable pageable) {
+        Page<ProductDTO> dto = productService.findAll(name, pageable);
         return ResponseEntity.ok(dto);
     }
     

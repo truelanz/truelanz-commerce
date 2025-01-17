@@ -1,7 +1,5 @@
 package com.truelanz.truelanzcommerce.services;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -33,10 +31,10 @@ public class ProductService {
      * }
      */
 
-    // bucar lista PAGINADA de elementos: GET \\
+    // bucar lista PAGINADA e busca pelo nome de elementos: GET \\
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findAll(Pageable pageable) {
-        Page<Product> result = productRepository.findAll(pageable);
+    public Page<ProductDTO> findAll(String name, Pageable pageable) {
+        Page<Product> result = productRepository.searchByName(name, pageable);
         return result.map(x -> new ProductDTO(x));
     }
 
