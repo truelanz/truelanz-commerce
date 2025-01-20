@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.truelanz.truelanzcommerce.dto.CategoryDTO;
 import com.truelanz.truelanzcommerce.dto.ProductDTO;
 import com.truelanz.truelanzcommerce.dto.ProductMinDTO;
+import com.truelanz.truelanzcommerce.entities.Category;
 import com.truelanz.truelanzcommerce.entities.Product;
 import com.truelanz.truelanzcommerce.repositories.ProductRepository;
 import com.truelanz.truelanzcommerce.services.exceptions.DatabaseException;
@@ -90,5 +92,12 @@ public class ProductService {
         entity.setDescription(dto.getDescription());
         entity.setPrice(dto.getPrice());
         entity.setImgUrl(dto.getImgUrl());
+
+        entity.getCategories().clear();
+        for (CategoryDTO categoryDTO : dto.getCategories()) {
+            Category category = new Category();
+            category.setId(categoryDTO.getId());
+            entity.getCategories().add(category);
+        }
     }
 }
