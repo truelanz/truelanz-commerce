@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.truelanz.truelanzcommerce.dto.ProductDTO;
+import com.truelanz.truelanzcommerce.dto.ProductMinDTO;
 import com.truelanz.truelanzcommerce.entities.Product;
 import com.truelanz.truelanzcommerce.repositories.ProductRepository;
 import com.truelanz.truelanzcommerce.services.exceptions.DatabaseException;
@@ -33,9 +34,9 @@ public class ProductService {
 
     // bucar lista PAGINADA e busca pelo nome de elementos: GET \\
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findAll(String name, Pageable pageable) {
+    public Page<ProductMinDTO> findAll(String name, Pageable pageable) {
         Page<Product> result = productRepository.searchByName(name, pageable);
-        return result.map(x -> new ProductDTO(x));
+        return result.map(x -> new ProductMinDTO(x));
     }
 
     // buscar por ID: GET \\
