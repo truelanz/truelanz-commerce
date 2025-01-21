@@ -30,14 +30,6 @@ public class ProductController {
     @Autowired
     private ProductService productService;
     
-    // bucar lista COMPLETA de elementos \\
-    /* @GetMapping
-    public List<ProductDTO> findAll() {
-        return productService.findAll();
-    } */
-
-    // bucar lista PAGINADA de elementos \\
-    // /products?size=5&page=0&sort=name -> QUERY PARAMS, tamanho= & página= & ordenar por= ...
     @GetMapping
     public ResponseEntity<Page<ProductMinDTO>> findAll(
             @RequestParam(name = "name", defaultValue = "") String name,

@@ -8,6 +8,7 @@ import com.truelanz.truelanzcommerce.entities.Order;
 import com.truelanz.truelanzcommerce.entities.OrderItem;
 import com.truelanz.truelanzcommerce.entities.OrderStatus;
 
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 
 @Getter
@@ -19,6 +20,8 @@ public class OrderDTO {
     private PaymentDTO payment;
 
     private ClientDTO client;
+    
+    @NotEmpty(message = "Pedido precisa ter ao menos um item")
     private List<OrderItemDTO> items = new ArrayList<>();
 
     public OrderDTO(Long id, Instant moment, OrderStatus status, PaymentDTO payment, ClientDTO client) {
