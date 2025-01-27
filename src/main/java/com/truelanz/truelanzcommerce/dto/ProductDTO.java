@@ -8,6 +8,7 @@ import com.truelanz.truelanzcommerce.entities.Product;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -24,6 +25,7 @@ public class ProductDTO {
     @Size(min = 10, message = "The field must be at least 10 characters long")
     @NotBlank(message = "Required field")
     private String description;
+    @NotNull(message = "Required field")
     @Positive(message = "the field must be positive")
     private Double price;
     private String imgUrl;
