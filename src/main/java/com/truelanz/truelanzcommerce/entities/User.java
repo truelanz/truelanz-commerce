@@ -78,6 +78,15 @@ public class User implements UserDetails {
         return false;
     }
 
+    //validação se usuário é ADMIN ou dono do pedido.
+    public boolean haRole(String roleName) {
+        for (Role role : roles) {
+            if (role.getAuthority().equals(roleName)) 
+                return true;
+        }
+        return false;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles;

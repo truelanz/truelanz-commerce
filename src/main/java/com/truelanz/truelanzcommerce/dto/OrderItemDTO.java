@@ -15,12 +15,14 @@ public class OrderItemDTO {
     private Integer quantity;
     private Double price;
     private String name;
+    private String imgUrl;
 
     public OrderItemDTO (OrderItem entity) {
         productId = entity.getProduct().getId();
         quantity = entity.getQuantity();
         price = entity.getPrice();
         name = entity.getProduct().getName();
+        imgUrl = entity.getProduct().getImgUrl();
     }
 
     //Calcular subtotal dos itens adicionados;

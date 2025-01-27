@@ -33,11 +33,17 @@ public class OrderService {
     @Autowired
     private OrderItemRepository orderItemRepository;
 
-    // buscar por ID: GET \\
+    @Autowired
+    private AuthService authService;
+
+    // buscar por ID: GET \\    
     @Transactional(readOnly = true)
     public OrderDTO findById(Long id) {
         Order order = orderRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Resource not Found"));
+        //Se quem estiver acessando não for da 'ROLE_ADMIN', ou não for dona do pedido de acesso,
+        //lançar um erro 403, de acesso negado.
+        authService.validateSelfOrdAdmin(order.getClient().getId());
         return new OrderDTO(order);
     }
 
